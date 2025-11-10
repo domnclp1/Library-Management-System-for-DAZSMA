@@ -38,6 +38,9 @@ namespace Library_Management_System_for_DAZSMA
             {
                 PwdPlaceholder.Visibility = Visibility.Visible;
             }
+
+            // Sync with text box (for when toggle is checked)
+            PwdText.Text = PwdBox.Password;
         }
 
         private void PwdText_TextChanged(object sender, TextChangedEventArgs e)
@@ -51,24 +54,41 @@ namespace Library_Management_System_for_DAZSMA
             {
                 PwdPlaceholder.Visibility = Visibility.Visible;
             }
+
+            // Sync with password box (for when toggle is unchecked)
+            if (PwdBox.Visibility == Visibility.Visible)
+            {
+                PwdBox.Password = PwdText.Text;
+            }
         }
 
         private void RevealToggle_Checked(object sender, RoutedEventArgs e)
         {
-            // Show password as text
+            // Show password as plain text
             PwdText.Text = PwdBox.Password;
             PwdText.Visibility = Visibility.Visible;
             PwdBox.Visibility = Visibility.Collapsed;
-            RevealIcon.Text = "\uE7B3"; // EyeHide icon
+            
+            // Change icon to "eye with slash" (hidden)
+            RevealIcon.Text = "\uE8D4";
+            
+            // Focus on the text box
+            PwdText.Focus();
+            PwdText.CaretIndex = PwdText.Text.Length;
         }
 
         private void RevealToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            // Hide password
+            // Hide password (show asterisks)
             PwdBox.Password = PwdText.Text;
             PwdBox.Visibility = Visibility.Visible;
             PwdText.Visibility = Visibility.Collapsed;
-            RevealIcon.Text = "\uE8D4"; // Eye icon
+            
+            // Change icon to "eye" (visible)
+            RevealIcon.Text = "\uE7B3";
+            
+            // Focus on the password box
+            PwdBox.Focus();
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)

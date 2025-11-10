@@ -23,7 +23,8 @@
         <SolidColorBrush x:Key="FieldBgBrush" Color="#F5F7FF" />
         <SolidColorBrush x:Key="FieldBorderBrush" Color="#DCE1F5" />
         <SolidColorBrush x:Key="Ink900" Color="{StaticResource Ink900Color}" />
-        <FontFamily x:Key="UiFont">Poppins, Segoe UI</FontFamily>
+        <FontFamily x:Key="UiFont">Segoe UI</FontFamily>
+        <FontFamily x:Key="HeadingFont">Georgia</FontFamily>
 
         <!-- Shared rounded border style for inputs -->
         <Style x:Key="RoundedBorder" TargetType="Border">
@@ -50,16 +51,14 @@
                                        Foreground="{StaticResource SubtleTextBrush}"
                                        Margin="14,10,14,10"
                                        IsHitTestVisible="False"
-                                       FontFamily="{StaticResource UiFont}"/>
+                                       FontFamily="{StaticResource UiFont}"
+                                       Visibility="Collapsed"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <!-- Show watermark when text is empty or null -->
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="Text" Value=""/>
-                                </MultiTrigger.Conditions>
+                            <Trigger Property="Text" Value="">
                                 <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
-                            </MultiTrigger>
+                            </Trigger>
                             <Trigger Property="Text" Value="{x:Null}">
                                 <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
                             </Trigger>
@@ -143,25 +142,25 @@
 
                 <!-- App Title (two lines) -->
                 <StackPanel Grid.Row="0" Margin="40,0,40,10">
-                    <TextBlock Text="DAZSMA Library" FontFamily="{StaticResource UiFont}" FontWeight="Bold"
+                    <TextBlock Text="DAZSMA Library" FontFamily="{StaticResource HeadingFont}" FontWeight="Bold"
                                FontSize="36" Foreground="{StaticResource Ink900}" TextAlignment="Center"/>
-                    <TextBlock Text="Management System" FontFamily="{StaticResource UiFont}" FontWeight="Bold"
+                    <TextBlock Text="Management System" FontFamily="{StaticResource HeadingFont}" FontWeight="Bold"
                                FontSize="36" Foreground="{StaticResource Ink900}" TextAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Welcome -->
                 <TextBlock Grid.Row="2" Text="Welcome Back, Librarian!"
-                           FontFamily="{StaticResource UiFont}" FontSize="36" FontWeight="Black"
-                           Foreground="{StaticResource Ink900}" Margin="20,10,20,0"/>
+                           FontFamily="{StaticResource HeadingFont}" FontSize="36" FontWeight="Black"
+                           Foreground="{StaticResource Ink900}" Margin="20,10,20,0" TextAlignment="Center"/>
 
                 <TextBlock Grid.Row="4" Text="Please enter your details to log in securely"
                            FontFamily="{StaticResource UiFont}" FontSize="16"
-                           Foreground="{StaticResource SubtleTextBrush}" Margin="20,0,20,0"/>
+                           Foreground="{StaticResource SubtleTextBrush}" Margin="20,0,20,0" TextAlignment="Center"/>
 
                 <!-- Email -->
                 <TextBlock Grid.Row="6" Text="Email" Style="{StaticResource LabelStyle}" Margin="20,16,20,8"/>
                 <TextBox Grid.Row="6" Margin="20,46,20,0" Height="44"
-                         Tag="JuandelaCruz@gmail.com"
+                         Tag="Please enter your email here"
                          Name="EmailBox"/>
 
                 <!-- Password label + link -->
@@ -181,33 +180,68 @@
                 <!-- Password field with reveal -->
                 <Grid Grid.Row="8" Margin="20,46,20,0" Height="44">
                     <Border Style="{StaticResource RoundedBorder}"/>
-                    <!-- Hidden and visible fields stacked -->
-                    <PasswordBox x:Name="PwdBox" Margin="14,10,44,10" FontSize="14"
-                                 PasswordChanged="PwdBox_PasswordChanged"/>
-                    <TextBox x:Name="PwdText" Margin="14,10,44,10" FontSize="14" Visibility="Collapsed"
-                             TextChanged="PwdText_TextChanged"/>
+                    
+                    <!-- Password Box (shows asterisks) -->
+                    <PasswordBox x:Name="PwdBox" 
+                                 Margin="14,10,44,10" 
+                                 FontSize="14"
+                                 FontFamily="{StaticResource UiFont}"
+                                 PasswordChanged="PwdBox_PasswordChanged"
+                                 Background="Transparent"
+                                 BorderThickness="0"/>
+                    
+                    <!-- Text Box (shows plain text) -->
+                    <TextBox x:Name="PwdText" 
+                             Margin="14,10,44,10" 
+                             FontSize="14"
+                             FontFamily="{StaticResource UiFont}"
+                             Visibility="Collapsed"
+                             TextChanged="PwdText_TextChanged"
+                             Background="Transparent"
+                             BorderThickness="0"/>
 
-                    <!-- Placeholder when empty and hidden mode -->
+                    <!-- Placeholder when empty -->
                     <TextBlock x:Name="PwdPlaceholder"
-                               Text="**********"
+                               Text="Please enter your password here"
                                Foreground="{StaticResource SubtleTextBrush}"
+                               FontFamily="{StaticResource UiFont}"
+                               FontSize="14"
                                Margin="14,10,44,10"
                                IsHitTestVisible="False"
                                VerticalAlignment="Center"
-                               Visibility="Collapsed"/>
+                               Visibility="Visible"/>
 
-                    <!-- Reveal toggle -->
+                    <!-- Reveal toggle button (eye icon) -->
                     <ToggleButton x:Name="RevealToggle"
                                   Width="32" Height="32"
                                   VerticalAlignment="Center" HorizontalAlignment="Right"
                                   Margin="0,0,6,0"
                                   Checked="RevealToggle_Checked"
                                   Unchecked="RevealToggle_Unchecked"
+                                  Background="Transparent"
+                                  BorderThickness="0"
                                   ToolTip="Show/Hide Password">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    BorderThickness="0"
+                                                    CornerRadius="4">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ToggleButton.Style>
                         <TextBlock x:Name="RevealIcon"
                                    FontFamily="Segoe MDL2 Assets"
                                    FontSize="16"
-                                   Text="&#xE8D4;"  />
+                                   Foreground="{StaticResource SubtleTextBrush}"
+                                   Text="&#xE7B3;"/>
                     </ToggleButton>
                 </Grid>
 
@@ -238,10 +272,10 @@
                 <DropShadowEffect Color="#4C1A1A1A" BlurRadius="24" ShadowDepth="0" Opacity="0.35"/>
             </Border.Effect>
             <Grid>
-                <!-- Placeholder for logo - add your image file to Assets folder -->
-                <TextBlock Text="LOGO" FontSize="48" FontWeight="Bold" 
-                          Foreground="White" HorizontalAlignment="Center" 
-                          VerticalAlignment="Center"/>
+                <!-- DAZSMA Logo in upper right -->
+                <Image Source="pack://application:,,,/Assets/dazsma_logo.png"
+                       HorizontalAlignment="Right" VerticalAlignment="Top"
+                       Margin="0,40,60,0" Width="380" Height="380" Stretch="Uniform"/>
             </Grid>
         </Border>
     </Grid>
