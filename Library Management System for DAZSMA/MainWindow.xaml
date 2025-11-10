@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="DAZSMA Library Management System"
         Width="1366" Height="768" MinWidth="1100" MinHeight="680"
@@ -37,24 +38,23 @@
             <Setter Property="FontFamily" Value="{StaticResource UiFont}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-            <Setter Property="Padding" Value="14,10"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="14,10,14,10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Grid>
                             <Border Style="{StaticResource RoundedBorder}"/>
-                            <ScrollViewer x:Name="PART_ContentHost" Margin="8,4"/>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="8,4,8,4"/>
                             <TextBlock x:Name="Watermark"
                                        Text="{TemplateBinding Tag}"
                                        Foreground="{StaticResource SubtleTextBrush}"
-                                       Margin="14,10"
+                                       Margin="14,10,14,10"
                                        IsHitTestVisible="False"
                                        FontFamily="{StaticResource UiFont}"
                                        Visibility="Collapsed"/>
                         </Grid>
                         <ControlTemplate.Triggers>
+                            <!-- Show watermark when text is empty or null -->
                             <Trigger Property="Text" Value="">
                                 <Setter TargetName="Watermark" Property="Visibility" Value="Visible"/>
                             </Trigger>
@@ -65,15 +65,6 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-
-        <!-- PasswordBox style -->
-        <Style TargetType="PasswordBox">
-            <Setter Property="FontFamily" Value="{StaticResource UiFont}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
         <!-- Primary action button -->
@@ -87,7 +78,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="12" Background="{TemplateBinding Background}">
+                        <Border CornerRadius="12"
+                                Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
@@ -103,31 +95,20 @@
             </Setter>
         </Style>
 
-        <!-- ToggleButton style -->
-        <Style x:Key="EyeToggleButton" TargetType="ToggleButton">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="0" CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <!-- Label style -->
-        <Style x:Key="LabelStyle" TargetType="TextBlock">
+        <Style TargetType="TextBlock" x:Key="LabelStyle">
             <Setter Property="FontFamily" Value="{StaticResource UiFont}"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="{StaticResource Ink900}"/>
         </Style>
 
-        <!-- Gradient -->
+        <Style TargetType="TextBlock" x:Key="HintLink">
+            <Setter Property="FontFamily" Value="{StaticResource UiFont}"/>
+            <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextDecorations" Value="None"/>
+        </Style>
+
         <LinearGradientBrush x:Key="HeroGradient" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="{StaticResource Primary800}" Offset="0"/>
             <GradientStop Color="{StaticResource Primary600}" Offset="1"/>
@@ -158,7 +139,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- App Title -->
+                <!-- App Title (two lines) -->
                 <StackPanel Grid.Row="0" Margin="40,0,40,10">
                     <TextBlock Text="DAZSMA Library" FontFamily="{StaticResource HeadingFont}" FontWeight="Bold"
                                FontSize="36" Foreground="{StaticResource Ink900}" TextAlignment="Center"/>
@@ -173,7 +154,7 @@
 
                 <TextBlock Grid.Row="4" Text="Please enter your details to log in securely"
                            FontFamily="{StaticResource UiFont}" FontSize="16"
-                           Foreground="{StaticResource SubtleTextBrush}" Margin="20,0" TextAlignment="Center"/>
+                           Foreground="{StaticResource SubtleTextBrush}" Margin="20,0,20,0" TextAlignment="Center"/>
 
                 <!-- Email -->
                 <TextBlock Grid.Row="6" Text="Email" Style="{StaticResource LabelStyle}" Margin="20,16,20,8"/>
@@ -198,14 +179,27 @@
                 <!-- Password field with reveal -->
                 <Grid Grid.Row="8" Margin="20,46,20,0" Height="44">
                     <Border Style="{StaticResource RoundedBorder}"/>
-                    
-                    <PasswordBox x:Name="PwdBox" Margin="14,10,44,10" 
-                                 PasswordChanged="PwdBox_PasswordChanged"/>
-                    
-                    <TextBox x:Name="PwdText" Margin="14,10,44,10" Visibility="Collapsed"
-                             TextChanged="PwdText_TextChanged"/>
 
-                    <!-- Placeholder -->
+                    <!-- Password Box (shows asterisks) -->
+                    <PasswordBox x:Name="PwdBox" 
+                                 Margin="14,10,44,10" 
+                                 FontSize="14"
+                                 FontFamily="{StaticResource UiFont}"
+                                 PasswordChanged="PwdBox_PasswordChanged"
+                                 Background="Transparent"
+                                 BorderThickness="0"/>
+
+                    <!-- Text Box (shows plain text) -->
+                    <TextBox x:Name="PwdText" 
+                             Margin="14,10,44,10" 
+                             FontSize="14"
+                             FontFamily="{StaticResource UiFont}"
+                             Visibility="Collapsed"
+                             TextChanged="PwdText_TextChanged"
+                             Background="Transparent"
+                             BorderThickness="0"/>
+
+                    <!-- Placeholder when empty -->
                     <TextBlock x:Name="PwdPlaceholder"
                                Text="Please enter your password here"
                                Foreground="{StaticResource SubtleTextBrush}"
@@ -216,15 +210,32 @@
                                VerticalAlignment="Center"
                                Visibility="Visible"/>
 
-                    <!-- Reveal toggle -->
+                    <!-- Reveal toggle button (eye icon) -->
                     <ToggleButton x:Name="RevealToggle"
-                                  Style="{StaticResource EyeToggleButton}"
                                   Width="32" Height="32"
                                   VerticalAlignment="Center" HorizontalAlignment="Right"
                                   Margin="0,0,6,0"
                                   Checked="RevealToggle_Checked"
                                   Unchecked="RevealToggle_Unchecked"
+                                  Background="Transparent"
+                                  BorderThickness="0"
                                   ToolTip="Show/Hide Password">
+                        <ToggleButton.Style>
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    BorderThickness="0"
+                                                    CornerRadius="4">
+                                                <ContentPresenter HorizontalAlignment="Center" 
+                                                                VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ToggleButton.Style>
                         <TextBlock x:Name="RevealIcon"
                                    FontFamily="Segoe MDL2 Assets"
                                    FontSize="16"
@@ -233,11 +244,12 @@
                     </ToggleButton>
                 </Grid>
 
-                <!-- Admin link -->
+                <!-- Admin instead text -->
                 <TextBlock Grid.Row="10" Margin="20,10" HorizontalAlignment="Center"
                            FontFamily="{StaticResource UiFont}" FontSize="12" FontWeight="SemiBold"
-                           Foreground="{StaticResource PrimaryBrush}"
-                           Text="Log in as admin instead"/>
+                           Foreground="{StaticResource PrimaryBrush}">
+                    <Run Text="Log in as admin instead"/>
+                </TextBlock>
 
                 <!-- Login button -->
                 <Button Grid.Row="11" Margin="20,6,20,0" Height="48" Click="LoginButton_Click">
@@ -258,9 +270,16 @@
             <Border.Effect>
                 <DropShadowEffect Color="#4C1A1A1A" BlurRadius="24" ShadowDepth="0" Opacity="0.35"/>
             </Border.Effect>
-            <Image Source="pack://application:,,,/Assets/dazsma_logo.png"
-                   HorizontalAlignment="Right" VerticalAlignment="Top"
-                   Margin="0,40,60,0" Width="380" Height="380" Stretch="Uniform"/>
+            <Grid>
+                <!-- DAZSMA Logo in upper right -->
+                <Image Source="pack://application:,,,/Assets/dazsma_logo.png"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"
+                       Margin="352,0,0,0" 
+                       Width="300" 
+                       Height="300"
+                       Stretch="Uniform"/>
+            </Grid>
         </Border>
     </Grid>
 </Window>
