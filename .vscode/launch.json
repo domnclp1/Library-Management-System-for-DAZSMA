@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch WPF (net8.0-windows)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/Library Management System for DAZSMA/bin/Debug/net8.0-windows/Library Management System for DAZSMA.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}/Library Management System for DAZSMA",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
