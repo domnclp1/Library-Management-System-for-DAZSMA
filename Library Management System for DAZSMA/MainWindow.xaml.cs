@@ -165,9 +165,32 @@ namespace Library_Management_System_for_DAZSMA
 
         private void CreateAccount_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: librarian account creation
-            MessageBox.Show("Librarian account creation coming soon.", "Account",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                // Ensure the LibrarianSignUp XAML Build Action is "Page" in properties.
+                var signUpWindow = new LibrarianSignUp();
+
+                // Option 1: Hide current, show new (non-modal)
+                this.Hide();
+                signUpWindow.Closed += (_, __) =>
+                {
+                    // Restore login window if sign-up closes without navigation elsewhere
+                    if (Application.Current.MainWindow == this)
+                        this.Show();
+                };
+
+                // Set as new main window if you intend to leave login flow
+                Application.Current.MainWindow = signUpWindow;
+                signUpWindow.Show();
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show(
+                    $"Failed to open sign-up window.\n{ex.GetType().Name}: {ex.Message}",
+                    "Navigation Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         private void CreateAdminAccount_Click(object sender, RoutedEventArgs e)
