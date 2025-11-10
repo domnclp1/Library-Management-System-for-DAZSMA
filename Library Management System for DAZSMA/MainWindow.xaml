@@ -6,8 +6,10 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="DAZSMA Library Management System"
-        Width="1366" Height="768" MinWidth="1100" MinHeight="680"
+        Width="1920" Height="1080" 
+        MinWidth="1200" MinHeight="700"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Background="#F3F5FF">
     <Window.Resources>
         <!-- Palette -->
@@ -15,6 +17,7 @@
         <Color x:Key="Primary700">#1E2AB6</Color>
         <Color x:Key="Primary800">#15218F</Color>
         <Color x:Key="Ink900Color">#0B0B10</Color>
+        <Color x:Key="AppTitleColor">#0A094F</Color>
         <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary600}" />
         <SolidColorBrush x:Key="PrimaryBrushDark" Color="{StaticResource Primary700}" />
         <SolidColorBrush x:Key="TextBrush" Color="#0C0D10" />
@@ -22,6 +25,7 @@
         <SolidColorBrush x:Key="FieldBgBrush" Color="#F5F7FF" />
         <SolidColorBrush x:Key="FieldBorderBrush" Color="#DCE1F5" />
         <SolidColorBrush x:Key="Ink900" Color="{StaticResource Ink900Color}" />
+        <SolidColorBrush x:Key="AppTitleBrush" Color="{StaticResource AppTitleColor}" />
         <FontFamily x:Key="UiFont">Segoe UI</FontFamily>
         <FontFamily x:Key="HeadingFont">Georgia</FontFamily>
 
@@ -122,82 +126,111 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left: Form -->
-        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
-            <Grid Margin="60,32,40,40">
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <Grid MaxWidth="600" HorizontalAlignment="Center" Margin="40,60,40,60">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="32"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="14"/>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="8"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="18"/>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <!-- App Title (two lines) -->
-                <StackPanel Grid.Row="0" Margin="40,0,40,10">
-                    <TextBlock Text="DAZSMA Library" FontFamily="{StaticResource HeadingFont}" FontWeight="Bold"
-                               FontSize="36" Foreground="{StaticResource Ink900}" TextAlignment="Center"/>
-                    <TextBlock Text="Management System" FontFamily="{StaticResource HeadingFont}" FontWeight="Bold"
-                               FontSize="36" Foreground="{StaticResource Ink900}" TextAlignment="Center"/>
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="DAZSMA Library" 
+                               FontFamily="{StaticResource HeadingFont}" 
+                               FontWeight="Bold"
+                               FontSize="36" 
+                               Foreground="{StaticResource AppTitleBrush}" 
+                               TextAlignment="Center"/>
+                    <TextBlock Text="Management System" 
+                               FontFamily="{StaticResource HeadingFont}" 
+                               FontWeight="Bold"
+                               FontSize="36" 
+                               Foreground="{StaticResource AppTitleBrush}" 
+                               TextAlignment="Center"/>
                 </StackPanel>
 
                 <!-- Welcome -->
-                <TextBlock Grid.Row="2" Text="Welcome Back, Librarian!"
-                           FontFamily="{StaticResource HeadingFont}" FontSize="36" FontWeight="Black"
-                           Foreground="{StaticResource Ink900}" Margin="20,10,20,0" TextAlignment="Center"/>
+                <TextBlock Grid.Row="2" 
+                           Text="Welcome Back, Librarian!"
+                           FontFamily="{StaticResource HeadingFont}" 
+                           FontSize="32" 
+                           FontWeight="Black"
+                           Foreground="{StaticResource Ink900}" 
+                           TextAlignment="Center"/>
 
-                <TextBlock Grid.Row="4" Text="Please enter your details to log in securely"
-                           FontFamily="{StaticResource UiFont}" FontSize="16"
-                           Foreground="{StaticResource SubtleTextBrush}" Margin="20,0,20,0" TextAlignment="Center"/>
+                <TextBlock Grid.Row="4" 
+                           Text="Please enter your details to log in securely"
+                           FontFamily="{StaticResource UiFont}" 
+                           FontSize="14"
+                           Foreground="{StaticResource SubtleTextBrush}" 
+                           TextAlignment="Center"/>
 
                 <!-- Email -->
-                <TextBlock Grid.Row="6" Text="Email" Style="{StaticResource LabelStyle}" Margin="20,16,20,8"/>
-                <TextBox Grid.Row="6" Margin="20,46,20,0" Height="44"
+                <TextBlock Grid.Row="6" 
+                           Text="Email" 
+                           Style="{StaticResource LabelStyle}"/>
+                <TextBox Grid.Row="8" 
+                         Height="48"
                          Tag="Please enter your email here"
-                         Name="EmailBox"/>
+                         Name="EmailBox"
+                         VerticalContentAlignment="Center"/>
 
                 <!-- Password label + link -->
-                <Grid Grid.Row="8" Margin="20,16,20,6">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Password" Style="{StaticResource LabelStyle}"/>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
-                               Foreground="{StaticResource PrimaryBrush}" FontFamily="{StaticResource UiFont}"
-                               FontSize="12" FontWeight="SemiBold">
+                <Grid Grid.Row="10">
+                    <TextBlock Text="Password" 
+                               Style="{StaticResource LabelStyle}"
+                               HorizontalAlignment="Left"/>
+                    <TextBlock HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource PrimaryBrush}" 
+                               FontFamily="{StaticResource UiFont}"
+                               FontSize="12" 
+                               FontWeight="SemiBold">
                         <Hyperlink Click="ForgotPassword_Click">Forgot the Password?</Hyperlink>
                     </TextBlock>
                 </Grid>
 
                 <!-- Password field with reveal -->
-                <Grid Grid.Row="8" Margin="20,46,20,0" Height="44">
+                <Grid Grid.Row="12" Height="48">
                     <Border Style="{StaticResource RoundedBorder}"/>
 
                     <!-- Password Box (shows asterisks) -->
                     <PasswordBox x:Name="PwdBox" 
-                                 Margin="14,10,44,10" 
+                                 Margin="14,0,48,0" 
                                  FontSize="14"
                                  FontFamily="{StaticResource UiFont}"
                                  PasswordChanged="PwdBox_PasswordChanged"
                                  Background="Transparent"
-                                 BorderThickness="0"/>
+                                 BorderThickness="0"
+                                 VerticalContentAlignment="Center"/>
 
                     <!-- Text Box (shows plain text) -->
                     <TextBox x:Name="PwdText" 
-                             Margin="14,10,44,10" 
+                             Margin="14,0,48,0" 
                              FontSize="14"
                              FontFamily="{StaticResource UiFont}"
                              Visibility="Collapsed"
                              TextChanged="PwdText_TextChanged"
                              Background="Transparent"
-                             BorderThickness="0"/>
+                             BorderThickness="0"
+                             VerticalContentAlignment="Center"/>
 
                     <!-- Placeholder when empty -->
                     <TextBlock x:Name="PwdPlaceholder"
@@ -205,15 +238,16 @@
                                Foreground="{StaticResource SubtleTextBrush}"
                                FontFamily="{StaticResource UiFont}"
                                FontSize="14"
-                               Margin="14,10,44,10"
+                               Margin="14,0,48,0"
                                IsHitTestVisible="False"
                                VerticalAlignment="Center"
                                Visibility="Visible"/>
 
                     <!-- Reveal toggle button (eye icon) -->
                     <ToggleButton x:Name="RevealToggle"
-                                  Width="32" Height="32"
-                                  VerticalAlignment="Center" HorizontalAlignment="Right"
+                                  Width="36" Height="36"
+                                  VerticalAlignment="Center" 
+                                  HorizontalAlignment="Right"
                                   Margin="0,0,6,0"
                                   Checked="RevealToggle_Checked"
                                   Unchecked="RevealToggle_Unchecked"
@@ -245,22 +279,32 @@
                 </Grid>
 
                 <!-- Admin instead text -->
-                <TextBlock Grid.Row="10" Margin="20,10" HorizontalAlignment="Center"
-                           FontFamily="{StaticResource UiFont}" FontSize="12" FontWeight="SemiBold"
+                <TextBlock Grid.Row="14" 
+                           HorizontalAlignment="Center"
+                           FontFamily="{StaticResource UiFont}" 
+                           FontSize="12" 
+                           FontWeight="SemiBold"
                            Foreground="{StaticResource PrimaryBrush}">
                     <Run Text="Log in as admin instead"/>
                 </TextBlock>
 
                 <!-- Login button -->
-                <Button Grid.Row="11" Margin="20,6,20,0" Height="48" Click="LoginButton_Click">
-                    <TextBlock Text="Log In" FontWeight="SemiBold"/>
+                <Button Grid.Row="16" 
+                        Height="52" 
+                        Click="LoginButton_Click">
+                    <TextBlock Text="Log In" FontWeight="SemiBold" FontSize="16"/>
                 </Button>
 
                 <!-- Create account -->
-                <TextBlock Grid.Row="11" Margin="20,58,20,0" HorizontalAlignment="Center"
-                           FontFamily="{StaticResource UiFont}" FontSize="12" Foreground="{StaticResource SubtleTextBrush}">
+                <TextBlock Grid.Row="18" 
+                           HorizontalAlignment="Center"
+                           FontFamily="{StaticResource UiFont}" 
+                           FontSize="12" 
+                           Foreground="{StaticResource SubtleTextBrush}">
                     <Run Text="create new librarian account? "/>
-                    <Run Text="Click Here" Foreground="{StaticResource PrimaryBrush}" FontWeight="SemiBold"/>
+                    <Run Text="Click Here" 
+                         Foreground="{StaticResource PrimaryBrush}" 
+                         FontWeight="SemiBold"/>
                 </TextBlock>
             </Grid>
         </ScrollViewer>
@@ -273,11 +317,10 @@
             <Grid>
                 <!-- DAZSMA Logo in upper right -->
                 <Image Source="pack://application:,,,/Assets/dazsma_logo.png"
-                       HorizontalAlignment="Left" 
-                       VerticalAlignment="Top"
-                       Margin="352,0,0,0" 
-                       Width="300" 
-                       Height="300"
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Top" 
+                       Width="400" 
+                       Height="398"
                        Stretch="Uniform"/>
             </Grid>
         </Border>
